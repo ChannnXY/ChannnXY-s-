@@ -10,8 +10,8 @@
     </div>
     <div class="img-outer">
       <img src="/static/img/index_img.png"/>
-    </div>
-    <nav class="nav-outer">
+        </div>
+      <nav class="nav-outer">
         <div class="nav-inline" v-for="item in navList" :key="item.index" @click="nav(item.url)">
           <span style="font-size: 0.36rem;">{{item.title}}</span>
           <span style="font-size: 0.24rem;">{{item.en}}</span>

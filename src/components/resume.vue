@@ -1,6 +1,17 @@
 <template>
-    <div>data</div>
+  <div>dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+    }
+  },
+  methods: {
+  }
+}
+</script>
 
 <style scoped>
 
