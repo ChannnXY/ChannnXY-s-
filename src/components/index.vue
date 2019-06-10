@@ -1,22 +1,25 @@
 <template>
-  <div id="index-large">
-    <div>
-      <div class="name-top">
-        ChannnXY
-      </div>
-      <div class="name-bottom">
-        ChannnXY
-      </div>
-    </div>
-    <div class="img-outer">
-      <img src="/static/img/index_img.png"/>
+  <div>
+    <div id="index-large">
+      <div>
+        <div class="name-top">
+          ChannnXY
         </div>
+        <div class="name-bottom">
+          ChannnXY
+        </div>
+      </div>
+      <div class="img-outer">
+        <img src="/static/img/index_img.png"/>
+      </div>
       <nav class="nav-outer">
         <div class="nav-inline" v-for="item in navList" :key="item.index" @click="nav(item.url)">
           <span style="font-size: 0.36rem;">{{item.title}}</span>
           <span style="font-size: 0.24rem;">{{item.en}}</span>
         </div>
-    </nav>
+      </nav>
+    </div>
+    <!--网页端首页-->
   </div>
 </template>
 
@@ -34,6 +37,7 @@ export default {
   methods: {
     nav: function (e) {
       this.$router.push(e)
+      // console.log(this.$router)
     }
   }
 }

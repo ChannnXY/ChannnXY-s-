@@ -13,7 +13,7 @@ export default new Router({
       component: index
     },
     {
-      path: '/',
+      path: '/resume',
       name: 'resume',
       component: resume
     }
