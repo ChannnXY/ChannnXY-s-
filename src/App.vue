@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" style="overflow-x: hidden;">
     <nav class="nav-outer" v-if="currentTab!==0">
       <ul>
         <li :class="currentTab===0||currentHover===0?'checked':''"
@@ -26,9 +26,7 @@
       <!--导航栏-->
       <div class="input-outer">
         <div class="input-inline">
-          <input :class="showInputFlag?
-                 'input-animate-after':
-                 'input-animate-before'"/>
+          <input class="input-inline-animate"/>
         </div>
         <img class="input-inline-img"
              src="/static/img/navBar-search.png"
@@ -42,16 +40,44 @@
       </div>
     </nav>
     <!--导航-->
-    <div class="link-outer" :class="showMaskFlag?'link-outer-before':'link-outer-after'">
-      <div id="line-scroll" style="height: 60%;overflow-y: scroll">
+    <div :class="showMaskFlag?'link-outer-before':'link-outer-after'">
+      <div id="line-scroll" style="height: 60%;overflow-y: scroll;flex: 1">
         <div v-for="item in contactList" :key="item.index">
           <div  class="link-inline">
             <div class="link-name">{{item.userName}}</div>
             <div class="link-content">{{item.content}}</div>
             <div class="link-time">{{item.date}}</div>
           </div>
-          <hr align="center" width="98%"/>
+          <hr align="center" width="100%"/>
         </div>
+      </div>
+      <form class="link-input-outer">
+        <div class="link-input-outer-area">
+          <div class="link-input-inline-area">
+            <textarea
+              :onchange="textInput(0)"
+              placeholder="如果要联系我或者交流,欢迎留言！"
+              maxlength="200"
+              v-model="contactMe.content"></textarea>
+            <span>{{textSize.areaSize}}/200</span>
+          </div>
+        </div>
+        <div class="link-input-outer-input">
+          <div class="link-input-inline-input">
+            <input
+              placeholder="请输入姓名"
+              maxlength="10"
+              :onchange="textInput(1)"
+              v-model="contactMe.name"
+            />
+            <span>{{textSize.inputSize}}/10</span>
+          </div>
+          <button>提交</button>
+        </div>
+      </form>
+      <div class="link-contact-outer">
+        <span>gitHub:channnxy</span>
+        <span>E-mail:channnxy@163.com</span>
       </div>
     </div>
     <!--回复部分-->
@@ -73,13 +99,19 @@ export default {
       // 是否显示输入框
       showMaskFlag: false,
       // 是否显示遮罩层等等
-      contactList: [{userName: 'Channnxy', date: '2019/06/10', content: '111'},
-        {userName: 'Channnxy', date: '2019/06/10', content: '111'},
-        {userName: 'Channnxy', date: '2019/06/10', content: '111'},
-        {userName: 'Channnxy', date: '2019/06/10', content: '111'},
-        {userName: 'Channnxy', date: '2019/06/10', content: '111'},
-        {userName: 'Channnxy', date: '2019/06/10', content: '111'},
-        {userName: 'Channnxy', date: '2019/06/10', content: '111'}
+      height: {maskHeight: document.documentElement.clientHeight, linkHeight: 0},
+      // 自适应所需各种高度
+      textSize: {inputSize: 0, areaSize: 0},
+      // 字符数
+      contactMe: {name: '', content: ''},
+      // 联系我表单
+      contactList: [{userName: 'Channnxy', date: '2019/06/10', content: 'helloWord'},
+        {userName: 'Channnxy', date: '2019/06/10', content: 'helloWord'},
+        {userName: 'Channnxy', date: '2019/06/10', content: 'helloWord'},
+        {userName: 'Channnxy', date: '2019/06/10', content: 'helloWord'},
+        {userName: 'Channnxy', date: '2019/06/10', content: 'helloWord'},
+        {userName: 'Channnxy', date: '2019/06/10', content: 'helloWord'},
+        {userName: 'Channnxy', date: '2019/06/10', content: 'helloWord'}
       ]
     }
   },
@@ -91,10 +123,27 @@ export default {
       this.currentHover = e
     },
     showInput: function () {
-      this.showInputFlag = !this.showInputFlag
+      // this.showInputFlag = !this.showInputFlag
+      let input = document.getElementsByClassName('.input-inline-animate')
+      input.style('animation', 'input-animate-after 1s forwards alternate')
     },
     showMask: function () {
       this.showMaskFlag = !this.showMaskFlag
+    },
+    textInput: function (e) {
+      if (e === 0) {
+        if (this.contactMe.content.length < 200) {
+          this.textSize.areaSize = this.contactMe.content.length
+        } else {
+          this.textSize.areaSize = 200
+        }
+      } else {
+        if (this.contactMe.name.length < 200) {
+          this.textSize.inputSize = this.contactMe.name.length
+        } else {
+          this.textSize.inputSize = 10
+        }
+      }
     }
   }
 }
@@ -111,12 +160,16 @@ export default {
     border: none;
     height: 1px;
   }
+  body{
+    overflow-x: hidden;
+  }
   #app{
     height: 100%;
   }
   .nav-outer{
-    z-index: 999;
-    position: absolute;
+    z-index: 1000;
+    box-shadow: 0 0 2px #c6c6c6;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -160,7 +213,7 @@ export default {
     height: 0.46rem;
     border: none;
     border-radius: 24px;
-    animation: input-animate-before 1s;
+    animation: input-animate-before 1s forwards;
     animation-timing-function: ease-in;
     width: 0;
   }
@@ -169,7 +222,7 @@ export default {
     90%{width: 0;border: 1px solid #c4c4c4;}
     100%{width: 0;border: none;}
   }
-  .input-animate-after{
+  .input-inline-animate{
     background-color: rgba(00,00,00,0);
     padding: 0 0.2rem;
     font-size: 0.24rem;
@@ -177,7 +230,6 @@ export default {
     height: 0.46rem;
     border: 1px solid #c4c4c4;
     border-radius: 24px;
-    animation: input-animate-after 1s;
   }
   @-webkit-keyframes input-animate-after {
     from{width: 0;}
@@ -202,32 +254,34 @@ export default {
     height: 0.68rem;
   }
   .link-mask-before{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 100%;
+    right: 0;
+    bottom: 0;
+    filter:alpha(opacity=50);
     z-index: 888;
     background-color: rgba(00,00,00,0.5);
-    animation: mask-animation-before 2s;
+    animation: mask-animation-before 2s forwards;
   }
   @-webkit-keyframes mask-animation-before {
     from{background-color: rgba(00,00,00,0.0);}
     to{background-color: rgba(00,00,00,0.5);}
   }
   .link-mask-after{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 888;
+    right: 0;
+    bottom: 0;
+    filter:alpha(opacity=50);
+    z-index: 0;
     background-color: rgba(00,00,00,0.0);
-    animation: mask-animation-after 2s;
+    animation: mask-animation-after 2s forwards;
   }
   @-webkit-keyframes mask-animation-after {
-    from{background-color: rgba(00,00,00,0.5);}
-    to{background-color: rgba(00,00,00,0.0);}
+    from{background-color: rgba(00,00,00,0.5);z-index: 888;}
+    to{background-color: rgba(00,00,00,0.0);z-index: 0}
   }
   /**/
   /*遮罩层动画*/
@@ -237,28 +291,28 @@ export default {
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    position: absolute;
+    position: fixed;
     top: 0.68rem;
     right: 0;
+    bottom: 0;
     width: 5rem;
-    height: 100%;
-    animation: animate-link-before 2s;
+    animation: animate-link-before 2s forwards;
   }
   @-webkit-keyframes animate-link-before {
-    from{right: -5rem;}
-    to{right: 0;}
+    from{right: -5rem}
+    to{right: 0}
   }
   .link-outer-after{
     z-index: 999;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    position: absolute;
+    position: fixed;
     top: 0.68rem;
+    bottom: 0;
     right: -5rem;
     width: 5rem;
-    height: 100%;
-    animation: animate-link-after 2s;
+    animation: animate-link-after 2s forwards;
   }
   @-webkit-keyframes animate-link-after {
     from{right: 0;}
@@ -284,6 +338,85 @@ export default {
     color: #c4c4c4;
     font-size: 0.18rem;
     text-align: right;
+    line-height: 180%;
+  }
+  .link-input-outer{
+    display: flex;
+    flex-direction: column;
+  }
+  .link-input-outer-area{
+    width: 100%;
+  }
+  .link-input-inline-area{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #c6c6c6;
+    margin: 0.1rem 0.2rem;
+    border-radius: 0.12rem;
+  }
+  .link-input-inline-area textarea{
+    border-radius: 0.12rem;
+    border: none;
+    padding: 0.1rem;
+    font-size: 0.18rem;
+    height: 0.88rem;
+    line-height: 180%;
+    -webkit-box-flex: 1;
+  }
+  .link-input-inline-area span{
+    font-size: 0.14rem;
+    line-height: 180%;
+    color: #c9c9c9;
+    text-align: right;
+    margin: 0.06rem;
+  }
+  .link-input-outer-input{
+    display: flex;
+    border: 1px solid #4B8DFB;
+    border-radius: 0.12rem;
+    margin: 0.1rem 0.2rem;
+    font-size: 0.18rem;
+    line-height: 180%;
+    justify-content: space-between;
+  }
+  .link-input-inline-input{
+    display: flex;
+    justify-content: space-between;
+    border-radius: 0.12rem;
+    align-items: center;
+    width: 80%;
+  }
+  .link-input-inline-input input{
+    font-size: 0.18rem;
+    line-height: 180%;
+    background-color: rgba(00,00,00,0);
+    color: #5e5e5e;
+    padding: 0.1rem;
+    border-radius: 0.24rem;
+    border: none;
+    flex: 1;
+  }
+  .link-input-inline-input span{
+    font-size: 0.14rem;
+    color: #c6c6c6;
+    margin-right: 0.1rem;
+  }
+  .link-input-outer-input button{
+    font-size: 0.18rem;
+    color: #fff;
+    background-color: #4B8DFB;
+    border: none;
+    flex: 1;
+    width: 80%;
+    border-radius: 0 0.12rem 0.12rem 0;
+  }
+  .link-contact-outer{
+    display: flex;
+    flex-direction: column;
+    font-size: 0.18rem;
+    color: #c6c6c6;
+    text-align: right;
+    margin: 0.2rem;
     line-height: 180%;
   }
 </style>
