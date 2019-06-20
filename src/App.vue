@@ -122,11 +122,6 @@ export default {
     navHover: function (e) {
       this.currentHover = e
     },
-    showInput: function () {
-      // this.showInputFlag = !this.showInputFlag
-      let input = document.getElementsByClassName('.input-inline-animate')
-      input.style('animation', 'input-animate-after 1s forwards alternate')
-    },
     showMask: function () {
       this.showMaskFlag = !this.showMaskFlag
     },
@@ -147,6 +142,14 @@ export default {
     }
   }
 }
+$("span.msg-data").bind("click",function(event) {
+  $(this).css('animation', 'switchColor 0.8s');
+});
+$("span.msg-data").each(function() {
+  $(this)[0].addEventListener("animationend",function(){
+    $(this).css("animation","");
+  });
+});
 </script>
 
 <style scoped>
