@@ -142,14 +142,7 @@ export default {
     }
   }
 }
-$("span.msg-data").bind("click",function(event) {
-  $(this).css('animation', 'switchColor 0.8s');
-});
-$("span.msg-data").each(function() {
-  $(this)[0].addEventListener("animationend",function(){
-    $(this).css("animation","");
-  });
-});
+$()
 </script>
 
 <style scoped>
