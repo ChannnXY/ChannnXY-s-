@@ -24,21 +24,31 @@
 </template>
 
 <script>
+import tabData from '../../static/js/tabData.js'
 export default {
   name: 'index',
   data () {
     return {
       navList: [
         {title: '个人简历', en: 'Personal Resume', url: '/resume'},
-        {title: '项目经验', en: 'Project Experience', url: 'q'},
-        {title: '竞赛作品', en: 'Competition works', url: 'q'},
-        {title: '设计作品', en: 'Design Works', url: 'q'}]
+        {title: '项目经验', en: 'Project Experience', url: '/project'},
+        {title: '竞赛作品', en: 'Competition works', url: '/competition'},
+        {title: '设计作品', en: 'Design Works', url: '/design'}]
     }
   },
   methods: {
     nav: function (e) {
       this.$router.push(e)
-      // console.log(this.$router)
+      if (e === '/resume') {
+        tabData.$emit('currentTab', 1)
+      } else if (e === '/project') {
+        tabData.$emit('currentTab', 2)
+      } else if (e === '/competition') {
+        tabData.$emit('currentTab', 3)
+      } else if (e === '/design') {
+        tabData.$emit('currentTab', 4)
+      }
+      console.log(this.global)
     }
   }
 }

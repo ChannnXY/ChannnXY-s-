@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import tabData from '../../static/js/tabData.js'
 export default {
   name: 'navbar',
   data () {
@@ -121,9 +122,9 @@ export default {
       switch (e) {
         case 0:this.$router.push('/'); break
         case 1:this.$router.push('/resume'); break
-        case 2:this.$router.push('/q'); break
-        case 3:this.$router.push('/q'); break
-        case 4:this.$router.push('/q'); break
+        case 2:this.$router.push('/project'); break
+        case 3:this.$router.push('/competition'); break
+        case 4:this.$router.push('/design'); break
       }
     },
     navHover: function (e) {
@@ -149,13 +150,15 @@ export default {
           this.textSize.inputSize = 10
         }
       }
-    },
-    menu: function () {
-      this.scroll = document.documentElement.scrollTop || document.body.scrollTop
     }
   },
-  mounted () {
-    window.addEventListener('scroll', this.menu)
+  mounted: function () {
+    let that = this
+    tabData.$on('currentTab', (data) => {
+      console.log(data)
+      that.currentTab = data
+    })
+    // 接收index组件数据
   }
 }
 </script>
