@@ -12,19 +12,24 @@
       <div :key="item.index" v-for="item in resume.content" class="resume-content">{{item}}</div>
     </div>
     <!--基本信息-->
-    <div class="skills-outer">
+    <div class="skills-outer-background">
       <div class="skills-title-outer">
         <div class="skills-title-title">{{Skills.title}}</div>
         <div class="skills-title-inline">
-          <span class="resume-content">{{Skills.enTitle}}</span>
-          <img src="/static/img/resume-cube.png" height="20" style="margin-right: 0.1rem"/>
+          <span class="skills-title-content">{{Skills.enTitle}}</span>
+          <img src="/static/img/resume-cube.png" height="20" style="margin-left: 0.1rem"/>
         </div>
       </div>
       <!--标题-->
-      <div>
-        <img src="../../static/img/resume-skills-uibg.png" height="476" width="1920"/>
-        <div :key="item.index" v-for="item in Skills.content[1].content" class="resume-content">{{item}}</div>
+      <div id="swiper-item1">
+        <div class="skills-swiper-outer">
+          <div :key="item.index" v-for="item in Skills.content[1].content" class="skills-title-content">{{item}}</div>
+        </div>
+        <div class="skills-swiper-title-1">{{Skills.content[1].title}}</div>
+        <div class="skills-swiper-title-2"><<<<</div>
+        <div class="skills-swiper-title-3">左滑查看UI方向内容</div>
       </div>
+      <!--滑动内容-->
     </div>
     <!--专业技能-->
   </div>
@@ -150,30 +155,58 @@ export default {
     font-size: 0.18rem;
     z-index: 888;
   }
-  .skills-outer{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0.5rem 1rem;
-  }
-  .skills-outer img{
+  .skills-outer-background{
     position: absolute;
-    left: 0;
-    z-index: 0;
-  }
-  .skills-title-outer{
     display: flex;
+    background-color: #f3f3f3;
     flex-direction: column;
-    justify-content: right;
-  }
-  .skills-title-inline{
-    display: flex;
-    align-items: center;
-    justify-content: right;
+    z-index: 0;
+    width: 100%;
+    padding: 0.1rem 0;
   }
   .skills-title-title{
+    font-size: 0.28rem;
     color: black;
     line-height: 180%;
-    font-size: 0.28rem;
+    text-align: right;
+    margin-right: 4rem;
+  }
+  .skills-title-inline{
+    margin-right: 4rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .skills-title-content{
+    align-items: center;
+    line-height: 240%;
+    color: #707070;
+    font-size: 0.18rem;
+    z-index: 888;
+  }
+  .skills-swiper-outer{
+    padding: 0 4rem;
+    z-index: 888;
+  }
+  .skills-swiper-title-1{
+    position: absolute;
+    bottom: 0;
+    font-size: 2rem;
+    color: #e9e9e9;
+    z-index: 777;
+  }
+  .skills-swiper-title-2{
+    position: absolute;
+    bottom: 1rem;
+    font-size: 1rem;
+    right: 1rem;
+    color: #e9e9e9;
+  }
+  .skills-swiper-title-3{
+    position: absolute;
+    bottom: 0.7rem;
+    font-size: 0.18rem;
+    right: 1rem;
+    color: #cbcbcb;
   }
 </style>
