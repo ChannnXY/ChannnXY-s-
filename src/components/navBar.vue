@@ -92,7 +92,7 @@ export default {
   name: 'navbar',
   data () {
     return {
-      currentTab: 1,
+      currentTab: 0,
       // 0首页，1简历，2项目，3竞赛，4设计
       currentHover: -1,
       // 鼠标悬停效果
@@ -155,8 +155,9 @@ export default {
   mounted: function () {
     let that = this
     tabData.$on('currentTab', (data) => {
-      console.log(data)
+      // console.log(data)
       that.currentTab = data
+      that.currentHover = -1
     })
     // 接收index组件数据
   }

@@ -48,7 +48,6 @@ export default {
       } else if (e === '/design') {
         tabData.$emit('currentTab', 4)
       }
-      console.log(this.global)
     }
   }
 }
