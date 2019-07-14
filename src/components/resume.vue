@@ -1,5 +1,5 @@
 <template>
-  <div style="padding-top: 0.5rem;overflow-x: hidden;">
+  <div style="overflow-x: hidden;">
     <div class="resume-outer">
       <div>
         <div class="resume-title">{{resume.title}}</div>
@@ -54,13 +54,62 @@
         <!--标题-->
         <div>
           <div :key="item.index" v-for="item in project.content" class="resume-content">{{item}}</div>
-          <button @click="nav('/project')">了解更多</button>
+          <div class="project-btn-outer">
+            <button @click="nav('/project')">了解更多</button>
+          </div>
         </div>
         <!--文字-->
       </div>
       <img src="http://temp.im/300x300/fff"/>
     </div>
     <!--项目经验-->
+    <div class="competition-outer">
+      <img src="http://temp.im/300x300/fff"/>
+      <div>
+        <div>
+          <div class="resume-title">{{competition.title}}</div>
+          <div class="resume-enTitle">
+            <img src="/static/img/resume-cube.png" height="20" style="margin-right: 0.1rem"/>
+            <span class="resume-content">{{competition.enTitle}}</span>
+          </div>
+        </div>
+        <!--标题-->
+        <div>
+          <div :key="item.index" v-for="item in competition.content" class="resume-content">{{item}}</div>
+          <div class="project-btn-outer">
+            <button @click="nav('/competition')" style="margin: 0.2rem 0">了解更多</button>
+          </div>
+        </div>
+        <!--文字-->
+      </div>
+    </div>
+    <!--竞赛作品-->
+    <div class="design-title">{{design.title}}{{design.enTitle}}</div>
+    <ul class="design-outer">
+      <li v-for="item in design.content" :key="item.index" class="design-content">
+        <img src="http://temp.im/300x300/fff"/>
+        <div style="z-index: 888;">
+          <div>{{item.title}}</div>
+          <div>{{item.introduction}}</div>
+        </div>
+      </li>
+    </ul>
+    <!--设计作品-->
+    <div class="other-outer">
+      <div style="z-index: 888">
+        <div class="other-title">{{other.title}}</div>
+        <div class="other-title-outer">
+          <img src="/static/img/resume-cube-white.png" height="20" style="margin-right: 0.1rem"/>
+          <span>{{other.enTitle}}</span>
+        </div>
+      </div>
+      <div :key="item.index"
+           v-for="item in other.content"
+           class="other-content">
+        {{item}}
+      </div>
+    </div>
+    <div class="other-background"></div>
   </div>
 </template>
 
@@ -69,7 +118,6 @@ export default {
   data () {
     return {
       showSkillsFlag: false,
-      playSkillsFlag: true,
       resume: {
         title: '基本信息',
         enTitle: 'Personal Resume',
@@ -137,7 +185,7 @@ export default {
         enTitle: 'Competition Works',
         content: [
           {title: '辩论Online', introduction: '网络辩论赛事比赛及交流平台的设计与开发，包括论坛系统、文章管理系统、辩论赛事报名系统、团队成员管理系统等等系统的UI设计与前端开发。'},
-          {title: '唯度Wedo', introduction: '专家企业需求匹配平台的设计与开发，包括积分系统、专家企业身份认证系统、需求发布及匹配系统、需求进度管理系统、消息系统等功能的UI设计及前端开发。。'},
+          {title: '唯度Wedo', introduction: '专家企业需求匹配平台的设计与开发，包括积分系统、专家企业身份认证系统、需求发布及匹配系统、需求进度管理系统、消息系统等功能的UI设计及前端开发。'},
           {title: '轻旅Easy tour', introduction: '基于余村乡村振兴调研的乡村旅游平台的设计，包括图文发布及管理系统、商店开设及预订系统、推荐路线导航系统等系统的UI设计。'},
           {title: '霓裳', introduction: '为汉服复兴设计的小游戏，包括图文发布及管理系统、商店开设及预订系、推荐路线导航系统等系统的UI设计。'},
           {title: '易校车', introduction: '针对浙江科技学院的校车管理系统，包括论师生身份管理、班次查询、校车购票等功能的UI设计与前端开发。'}
@@ -289,19 +337,79 @@ export default {
   }
   .project-btn-outer{
     display: flex;
+    justify-content: flex-end;
   }
-  button{
+  .project-btn-outer button{
     font-size: 0.18rem;
     border-radius: 0.3rem;
     border: 1px solid #707070;
     background-color: #f8f8f8;
-    padding: 0.1rem;
+    padding: 0.1rem 0.2rem;
     color: #707070;
+    margin: 0.2rem 0.5rem;
   }
   .project-outer{
     display: flex;
     justify-content: space-between;
     margin-top: 3.5rem;
     padding: 1rem 4rem;
+  }
+  .competition-outer{
+    display: flex;
+    padding: 0 4rem;
+  }
+  .competition-outer img{
+    margin-right: 1rem;
+  }
+  .design-title{
+    font-size: 0.28rem;
+    text-align: center;
+    margin: 1rem 0 0.5rem 0;
+  }
+  .design-outer{
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.18rem;
+    color: #707070;
+    line-height: 220%;
+  }
+  .design-content{
+    background: #fff;
+    margin: 0 0.2rem 1rem 0.2rem;
+    padding: 0.2rem;
+    z-index: 888;
+    border-radius: 0.1rem;
+  }
+  .other-background{
+    height: 8rem;
+    width: 100%;
+    background-color: #B9B9B9;
+    position: absolute;
+    z-index: 0;
+    transform: translateY(-8rem);
+  }
+  .other-outer{
+    display: flex;
+    flex-direction: column;
+    padding: 0 4rem 1rem 4rem;
+  }
+  .other-title-outer{
+    display: flex;
+    align-items: center;
+    font-size: 0.18rem;
+    color: #fff;
+    line-height: 220%;
+  }
+  .other-title{
+    font-size: 0.28rem;
+    color: #fff;
+    line-height: 180%;
+  }
+  .other-content{
+    align-items: center;
+    line-height: 240%;
+    color: #fff;
+    font-size: 0.18rem;
+    z-index: 888;
   }
 </style>
