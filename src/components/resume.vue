@@ -21,17 +21,46 @@
         </div>
       </div>
       <!--标题-->
-      <div id="swiper-item1">
-        <div class="skills-swiper-outer">
-          <div :key="item.index" v-for="item in Skills.content[1].content" class="skills-title-content">{{item}}</div>
-        </div>
-        <div class="skills-swiper-title-1">{{Skills.content[1].title}}</div>
-        <div class="skills-swiper-title-2"><<<<</div>
-        <div class="skills-swiper-title-3">左滑查看UI方向内容</div>
-      </div>
+      <ul @click="skillsPlay()" @mouseenter="skillsPlay_mouseenter()" @mouseleave="skillsPlay_mouseleave()">
+        <li :class="showSkillsFlag?'skills-opacity-none':'skills-opacity-full'">
+          <div class="skills-swiper-outer">
+            <div :key="item.index" v-for="item in Skills.content[0].content" class="skills-title-content">{{item}}</div>
+          </div>
+          <div class="skills-swiper-title-1">{{Skills.content[0].title}}</div>
+          <div class="skills-swiper-title-2">····</div>
+          <div class="skills-swiper-title-3">点击查看前端方向内容</div>
+        </li>
+        <li :class="!showSkillsFlag?'skills-opacity-none':'skills-opacity-full'">
+          <div class="skills-swiper-outer">
+            <div :key="item.index" v-for="item in Skills.content[1].content" class="skills-title-content">{{item}}</div>
+          </div>
+          <div class="skills-swiper-title-1">{{Skills.content[1].title}}</div>
+          <div class="skills-swiper-title-2">····</div>
+          <div class="skills-swiper-title-3">点击查看UI方向内容</div>
+        </li>
+      </ul>
       <!--滑动内容-->
     </div>
     <!--专业技能-->
+    <div class="project-outer" style="margin-top: 3.5rem">
+      <div>
+        <div>
+          <div class="resume-title">{{project.title}}</div>
+          <div class="resume-enTitle">
+            <img src="/static/img/resume-cube.png" height="20" style="margin-right: 0.1rem"/>
+            <span class="resume-content">{{project.enTitle}}</span>
+          </div>
+        </div>
+        <!--标题-->
+        <div>
+          <div :key="item.index" v-for="item in project.content" class="resume-content">{{item}}</div>
+          <button @click="nav('/project')">了解更多</button>
+        </div>
+        <!--文字-->
+      </div>
+      <img src="http://temp.im/300x300/fff"/>
+    </div>
+    <!--项目经验-->
   </div>
 </template>
 
@@ -39,6 +68,8 @@
 export default {
   data () {
     return {
+      showSkillsFlag: false,
+      playSkillsFlag: true,
       resume: {
         title: '基本信息',
         enTitle: 'Personal Resume',
@@ -77,7 +108,7 @@ export default {
               '3、熟悉C++、node.js等脚本语言，有node.js开发经验',
               '4、熟悉mySQL数据库相关知识，了解AJAX数据请求',
               '5、有方法封装经验，封装过分页及AJAX请求等方法',
-              '5、熟练使用GitHub进行代码上传，熟练运用分支操作']
+              '6、熟练使用GitHub进行代码上传，熟练运用分支操作']
           }
         ]
       },
@@ -126,6 +157,36 @@ export default {
     }
   },
   methods: {
+    /*
+    skill栏播放
+    */
+    skillsPlay () {
+      this.showSkillsFlag = !this.showSkillsFlag
+    },
+    skillsPlay_mouseenter () {
+      if (this.timer) {
+        clearInterval(this.timer)
+      }
+    },
+    skillsPlay_mouseleave () {
+      if (this.timer) {
+        this.timer = setInterval(this.skillsPlay, 3000)
+      }
+    },
+    /*
+    路由
+    */
+    nav (url) {
+      this.$router.push(url)
+    }
+  },
+  mounted () {
+    this.timer = setInterval(this.skillsPlay, 3000)
+  },
+  beforeDestroy () {
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
   }
 }
 </script>
@@ -134,10 +195,11 @@ export default {
   body{
     overflow-x: hidden;
   }
+  ul,li{ padding:0;margin:0;list-style:none}
   .resume-outer{
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 1rem 4rem;
   }
   .resume-title{
     color: black;
@@ -164,6 +226,20 @@ export default {
     width: 100%;
     padding: 0.1rem 0;
   }
+  .skills-opacity-none{
+    width: 100%;
+    background-color: #f3f3f3;
+    position: absolute;
+    opacity: 0.0;
+    transition: all 2s;
+  }
+  .skills-opacity-full{
+    width: 100%;
+    position: absolute;
+    background-color: #f3f3f3;
+    opacity: 1.0;
+    transition: all 2s;
+  }
   .skills-title-title{
     font-size: 0.28rem;
     color: black;
@@ -182,31 +258,50 @@ export default {
     line-height: 240%;
     color: #707070;
     font-size: 0.18rem;
-    z-index: 888;
+    z-index: 998;
   }
   .skills-swiper-outer{
     padding: 0 4rem;
     z-index: 888;
+    width: 100%;
+    margin-bottom: 0.4rem;
   }
   .skills-swiper-title-1{
     position: absolute;
     bottom: 0;
     font-size: 2rem;
-    color: #e9e9e9;
-    z-index: 777;
+    color: rgba(00,00,00,0.06);
+    z-index: 555;
   }
   .skills-swiper-title-2{
     position: absolute;
     bottom: 1rem;
     font-size: 1rem;
     right: 1rem;
-    color: #e9e9e9;
+    color: rgba(00,00,00,0.06);
   }
   .skills-swiper-title-3{
     position: absolute;
     bottom: 0.7rem;
     font-size: 0.18rem;
     right: 1rem;
-    color: #cbcbcb;
+    color: rgba(00,00,00,0.1);
+  }
+  .project-btn-outer{
+    display: flex;
+  }
+  button{
+    font-size: 0.18rem;
+    border-radius: 0.3rem;
+    border: 1px solid #707070;
+    background-color: #f8f8f8;
+    padding: 0.1rem;
+    color: #707070;
+  }
+  .project-outer{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3.5rem;
+    padding: 1rem 4rem;
   }
 </style>
